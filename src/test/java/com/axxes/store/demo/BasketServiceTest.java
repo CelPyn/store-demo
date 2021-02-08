@@ -11,6 +11,7 @@ import com.axxes.store.demo.service.impl.DefaultBasketService;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -41,5 +42,22 @@ public class BasketServiceTest {
         assertThat(resultContent.get(0).getProduct()).isEqualTo(mockProduct);
 
         assertThat(result.getTotal()).isEqualTo(10.0);
+    }
+
+    /**
+     * Do not change the setup of this test.
+     * Change the implementation in such a way that you can copy the execution and assertion steps
+     * from the happyFlow test and have a green test.
+     */
+    @Test
+    void immutability() {
+        // Setup
+        final Product mockProduct = mock(Product.class);
+        when(mockProduct.getPrice()).thenReturn(2.0);
+
+        final Basket basket = new DefaultBasket(List.of());
+
+        // Execution & assertion
+        assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> basketService.add(basket, mockProduct, 5));
     }
 }
