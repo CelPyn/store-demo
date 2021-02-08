@@ -27,7 +27,7 @@ public class DefaultBasketItem implements BasketItem {
 
     @Override
     public double getSubtotal() {
-        return 0;
+        return product.getPrice() * quantity;
     }
 
     @Override

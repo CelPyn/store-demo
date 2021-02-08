@@ -1,5 +1,6 @@
 package com.axxes.store.demo.domain.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -10,6 +11,10 @@ public class DefaultBasket implements Basket {
 
     private final List<BasketItem> content;
 
+    public DefaultBasket() {
+        content = new ArrayList<>();
+    }
+
     public DefaultBasket(final List<BasketItem> content) {
         this.content = content;
     }
@@ -17,6 +22,11 @@ public class DefaultBasket implements Basket {
     @Override
     public List<BasketItem> getContent() {
         return content;
+    }
+
+    @Override
+    public double getTotal() {
+        return content.stream().mapToDouble(BasketItem::getSubtotal).sum();
     }
 
     @Override
