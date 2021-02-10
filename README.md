@@ -23,9 +23,8 @@ Hint: `ArrayList` has a constructor which allows you to copy an existing list.
 
 ### 3.1 Obvious Implementation
 
-Complete the implementation of `CatalogService#getAll()` and use an obvious implementation to test it.
-
-Hint: ProductRepository
+Complete the implementation of `CatalogService#getAll()`. The implementation should be straightforward, so if you 
+can write a single iteration of the test, that is fine.
 
 ### 3.2 Triangulation
 
