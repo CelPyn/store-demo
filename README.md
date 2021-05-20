@@ -2,50 +2,80 @@
 
 ## Setup
 
-Checkout branch feature/exercise-start.
+Run `mvn clean install` to get the dependencies in your project.
 
-```
-git checkout -t origin/feature/exercise-start
-```
+## 1. Implementing and testing the domain
 
-## 1. BasketItem
+Product is a simple pojo. Write a test that creates a product, and validates the correct data is returned on each of the
+methods in Product.
 
-The demo implemented `DefaultBasketItem#getSubTotal()`. Test the given implementation, only the happy flow suffices.
+BasketItem has a method `getSubtotal()`, but the implementation doesn't seem quite right. Test it and fix the
+implementation.
 
-## 2. DefaultBasketService
+## 2. Implementing and testing the repository
 
-The demo has a bug in it's `#add()` method that breaks immutability. Use the provided
-test `BasketServiceTest#immutabiliy()` to fix it.
+The implementation of the ProductRepository is incomplete. Using TDD, write tests of the current implementation, then
+fix it to achieve the desired result.
 
-Hint: `ArrayList` has a constructor which allows you to copy an existing list.
+`getAll` should be fairly straightforward. Just return all the products in the repository.
 
-## 3. DefaultCatalogService
+`getById` should return exactly one result, which matches the passed integer. Write tests for both existing and
+non-existing products.
 
-### 3.1 Obvious Implementation
+`findByCategory` should return a list of Products which match a given category.
 
-Complete the implementation of `CatalogService#getAll()`. The implementation should be straightforward, so if you 
-can write a single iteration of the test, that is fine.
+`findByName` should return a list of Products which match a given name.
 
-### 3.2 Triangulation
+(Note: `ProductRepository.find` is optional to implement if you'd like to take on the challenge of writing an
+implementation of a predicate.)
 
-### 3.2.1
+## 3. Implementing and testing the services
 
-`CatalogService#getById()` takes a `String` argument. But the type of the id propery in Product is an `int`!
-Complete the implementation to convert the String to an int and return the correct `Product`.
+We're starting to get into a stage where we have services with dependencies (`ProductRepository`). Make sure to mock
+these dependencies!
 
-If you cannot find a product that matches the query, return null.
+### 3.1 BasketService
 
-Make sure to test the happy flow, and the not found flow!
+The add method takes a basket, a product and a quantity. Complete the implementation in a TDD way and test every edge
+case.
 
-### 3.2.2
+You should at least have the following tests:
 
-Write a test case that tests what happens when you pass a null value to `CatalogService#getById()`. Then, change the
-code so that `CatalogService#getById()` throws an `IllegalArgumentException` when attempting to pass a null argument.
+- Adding a product to an empty basket
+- Adding a product to a basket which contains one item of a different Id
+- Adding a product to a basket which contains one item with the same Id
+- Adding a null product to a basket
 
-### 3.2.3
+The remove method does the opposite of the add method. Implement it and test the following cases:
 
-In 3.2.1 you were told to return null if you could not find a product. Returning null is not a good practice. Throw
-a `NoSuchElementException` instead!
+- Removing a product from an empty basket
+- Removing a product from a basket which does not contain products with the passed id
+- Removing a quantity of products from a basket which contains a lesser amount of that product than are requested to be
+  deleted.
 
-Re-run all your previous tests and fix them where needed!
+After this, write a test that first adds a couple of products, then removes them again, then validate that the basket is
+empty.
+
+### 3.2 CatalogService
+
+The CatalogService has a of couple methods that need implementations. Implement them and test as much cases as you can.
+
+Be sure to mock your dependencies!
+
+### 3.3 PayService
+
+The PayService takes a basket and returns the amount of money you need to pay for the entire basket. Implement and test
+this functionality.
+
+## 4. Testing the entire thing
+
+Create a test class that tests what you previously implemented. This time around, don't mock anything.
+
+Test at least one flow:
+
+- Search for two different products in the catalog.
+- Add them in certain quantities to an empty basket.
+- Ask the payService to calculate the total cost and validate that it's right.
+
+If you implemented the previous steps correctly, you should not have to make any changes to your business logic!
 
