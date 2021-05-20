@@ -1,11 +1,11 @@
 package com.axxes.store.demo.repository.impl;
 
-import java.util.List;
-
 import com.axxes.store.demo.domain.Category;
 import com.axxes.store.demo.domain.Product;
 import com.axxes.store.demo.domain.impl.DefaultProduct;
 import com.axxes.store.demo.repository.ProductRepository;
+
+import java.util.List;
 
 public class DefaultProductRepository implements ProductRepository {
 
@@ -17,7 +17,7 @@ public class DefaultProductRepository implements ProductRepository {
                 new DefaultProduct(5, "T-shirt (zwart)", 15.20, Category.FASHION),  //
                 new DefaultProduct(6, "T-shirt (wit)", 15.20, Category.FASHION),    //
                 new DefaultProduct(7, "Channel no. 5", 65.99, Category.BEAUTY),     //
-                new DefaultProduct(8, "Eyeliner", 24.49, Category.BEAUTY),          //
+                new DefaultProduct(8, "Eyeliner", 24.49, Category.BEAUTY)           //
     };
 
     @Override
