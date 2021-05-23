@@ -7,6 +7,7 @@ import com.axxes.store.demo.repository.ProductRepository;
 
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class DefaultProductRepository implements ProductRepository {
 
@@ -23,26 +24,26 @@ public class DefaultProductRepository implements ProductRepository {
 
     @Override
     public List<Product> getProducts() {
-        return null;
+        return List.of(products);
     }
 
     @Override
     public Product getById(final int id) {
-        return null;
+        return products[id - 1];
     }
 
     @Override
     public List<Product> find(final Predicate<Product> predicate) {
-        return null;
+        return getProducts().stream().filter(predicate).collect(Collectors.toList());
     }
 
     @Override
     public List<Product> findByCategory(final Category category) {
-        return null;
+        return getProducts().stream().filter(product -> product.getCategory() == category).collect(Collectors.toList());
     }
 
     @Override
     public List<Product> findByName(final String name) {
-        return null;
+        return getProducts().stream().filter(product -> product.getName().equalsIgnoreCase(name)).collect(Collectors.toList());
     }
 }
