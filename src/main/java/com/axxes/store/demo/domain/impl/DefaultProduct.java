@@ -1,9 +1,10 @@
 package com.axxes.store.demo.domain.impl;
 
-import java.util.StringJoiner;
-
 import com.axxes.store.demo.domain.Category;
 import com.axxes.store.demo.domain.Product;
+
+import java.util.Objects;
+import java.util.StringJoiner;
 
 public class DefaultProduct implements Product {
 
@@ -37,6 +38,23 @@ public class DefaultProduct implements Product {
     @Override
     public Category getCategory() {
         return category;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final DefaultProduct that = (DefaultProduct) o;
+        return id == that.id && Double.compare(that.price, price) == 0 && Objects.equals(name, that.name) && category == that.category;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, price, category);
     }
 
     @Override

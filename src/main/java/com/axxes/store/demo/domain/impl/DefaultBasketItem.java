@@ -1,9 +1,10 @@
 package com.axxes.store.demo.domain.impl;
 
-import java.util.StringJoiner;
-
 import com.axxes.store.demo.domain.BasketItem;
 import com.axxes.store.demo.domain.Product;
+
+import java.util.Objects;
+import java.util.StringJoiner;
 
 public class DefaultBasketItem implements BasketItem {
 
@@ -28,6 +29,23 @@ public class DefaultBasketItem implements BasketItem {
     @Override
     public double getSubtotal() {
         return 0;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final DefaultBasketItem that = (DefaultBasketItem) o;
+        return quantity == that.quantity && Objects.equals(product, that.product);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(product, quantity);
     }
 
     @Override

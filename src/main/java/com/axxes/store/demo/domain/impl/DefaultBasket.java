@@ -1,10 +1,11 @@
 package com.axxes.store.demo.domain.impl;
 
-import java.util.List;
-import java.util.StringJoiner;
-
 import com.axxes.store.demo.domain.Basket;
 import com.axxes.store.demo.domain.BasketItem;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 public class DefaultBasket implements Basket {
 
@@ -17,6 +18,23 @@ public class DefaultBasket implements Basket {
     @Override
     public List<BasketItem> getContent() {
         return content;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final DefaultBasket that = (DefaultBasket) o;
+        return Objects.equals(content, that.content);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(content);
     }
 
     @Override
