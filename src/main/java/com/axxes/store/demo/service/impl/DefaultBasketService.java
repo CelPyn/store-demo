@@ -3,25 +3,30 @@ package com.axxes.store.demo.service.impl;
 import com.axxes.store.demo.domain.Basket;
 import com.axxes.store.demo.domain.BasketItem;
 import com.axxes.store.demo.domain.Product;
+import com.axxes.store.demo.domain.impl.DefaultBasketItem;
 import com.axxes.store.demo.service.BasketService;
-
-import java.util.List;
-import java.util.function.Predicate;
 
 public class DefaultBasketService implements BasketService {
 
     @Override
     public Basket add(final Basket basket, final Product product, final int quantity) {
-        final List<BasketItem> originalContent = basket.getContent();
-
-        final boolean alreadyContainsProduct = originalContent.stream().anyMatch(filterByIdPredicate(product));
-        if (alreadyContainsProduct) {
-            originalContent.stream().filter(filterByIdPredicate(product));
+        boolean replacedExisting = false;
+        for (final BasketItem basketItem : basket.getContent()) {
+            if (basketItem.getProduct().equals(product)) {
+                final BasketItem newItem = new DefaultBasketItem(product, basketItem.getQuantity() + quantity);
+                basket.getContent().remove(basketItem);
+                basket.getContent().add(newItem);
+                replacedExisting = true;
+                break;
+            }
         }
-    }
 
-    private Predicate<BasketItem> filterByIdPredicate(final Product product) {
-        return basketItem -> basketItem.getProduct().getId() == product.getId();
+        if (!replacedExisting) {
+            final BasketItem newItem = new DefaultBasketItem(product, quantity);
+            basket.getContent().add(newItem);
+        }
+
+        return basket;
     }
 
     @Override
